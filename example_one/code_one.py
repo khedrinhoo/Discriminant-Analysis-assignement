@@ -1,4 +1,8 @@
 # ============================================================
+# Name: Amr Khaled Khedr
+# ID: 2206018
+# SIM: Level 4
+# Course: Data Mining
 # PROJECT: Loan Approval Prediction using
 # Discriminant Analysis (LDA & QDA)
 # ============================================================
@@ -6,6 +10,7 @@
 # -------------------------------
 # 1. IMPORT LIBRARIES
 # -------------------------------
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,13 +24,14 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 # -------------------------------
 # 2. LOAD DATASET
 # -------------------------------
+
 # Load Loan Approval dataset
 data = pd.read_csv("dataset_one.csv")
 
 print("Initial Dataset Shape:", data.shape)
 
 # -------------------------------
-# 3. DATA CLEANING & PREPROCESSING
+# 3. DATA CLEANING & PRE-PROCESSING
 # -------------------------------
 
 # Drop ID column (not useful for prediction)
@@ -61,9 +67,13 @@ data["Dependents"] = data["Dependents"].replace("3+", "3").astype(int)
 
 # Encode categorical variables into numeric values
 data["Gender"] = data["Gender"].map({"Male": 1, "Female": 0})
+
 data["Married"] = data["Married"].map({"Yes": 1, "No": 0})
+
 data["Self_Employed"] = data["Self_Employed"].map({"Yes": 1, "No": 0})
+
 data["Education"] = data["Education"].map({"Graduate": 1, "Not Graduate": 0})
+
 data["Property_Area"] = data["Property_Area"].map({
     "Urban": 2,
     "Semiurban": 1,
@@ -78,12 +88,14 @@ print("Dataset Shape After Cleaning:", data.shape)
 # -------------------------------
 # 4. FEATURES & TARGET
 # -------------------------------
+
 X = data.drop("Loan_Status", axis=1)  # Features
 y = data["Loan_Status"]               # Target
 
 # -------------------------------
 # 5. TRAIN-TEST SPLIT
 # -------------------------------
+
 # Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
@@ -95,6 +107,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # -------------------------------
 # 6. LINEAR DISCRIMINANT ANALYSIS (LDA)
 # -------------------------------
+
 # Create pipeline: scaling + LDA
 lda_pipeline = Pipeline([
     ("scaler", StandardScaler()),
@@ -110,6 +123,7 @@ y_pred_lda = lda_pipeline.predict(X_test)
 # -------------------------------
 # 7. LDA EVALUATION
 # -------------------------------
+
 lda_accuracy = accuracy_score(y_test, y_pred_lda)
 lda_conf_matrix = confusion_matrix(y_test, y_pred_lda)
 
@@ -123,6 +137,7 @@ print(classification_report(y_test, y_pred_lda))
 # -------------------------------
 # 8. CROSS-VALIDATION (LDA)
 # -------------------------------
+
 # Evaluate model stability using cross-validation
 lda_cv_scores = cross_val_score(
     lda_pipeline, X, y,
@@ -136,6 +151,7 @@ print("LDA Cross-Validation Std:", lda_cv_scores.std())
 # -------------------------------
 # 9. QUADRATIC DISCRIMINANT ANALYSIS (QDA)
 # -------------------------------
+
 # Create pipeline: scaling + QDA
 qda_pipeline = Pipeline([
     ("scaler", StandardScaler()),
@@ -151,6 +167,7 @@ y_pred_qda = qda_pipeline.predict(X_test)
 # -------------------------------
 # 10. QDA EVALUATION
 # -------------------------------
+
 qda_accuracy = accuracy_score(y_test, y_pred_qda)
 qda_conf_matrix = confusion_matrix(y_test, y_pred_qda)
 
@@ -164,6 +181,7 @@ print(classification_report(y_test, y_pred_qda))
 # -------------------------------
 # 11. CONFUSION MATRIX VISUALIZATION
 # -------------------------------
+
 def plot_confusion_matrix(cm, title):
     plt.figure()
     plt.imshow(cm)
@@ -193,6 +211,7 @@ plot_confusion_matrix(qda_conf_matrix, "Confusion Matrix - QDA")
 # -------------------------------
 # 12. FINAL COMPARISON
 # -------------------------------
+
 print("\n================ FINAL COMPARISON ================")
 print(f"LDA Test Accuracy: {lda_accuracy:.4f}")
 print(f"QDA Test Accuracy: {qda_accuracy:.4f}")

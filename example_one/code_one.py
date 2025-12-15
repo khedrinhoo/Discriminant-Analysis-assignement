@@ -216,3 +216,8 @@ print("\n================ FINAL COMPARISON ================")
 print(f"LDA Test Accuracy: {lda_accuracy:.4f}")
 print(f"QDA Test Accuracy: {qda_accuracy:.4f}")
 print(f"LDA CV Accuracy:  {lda_cv_scores.mean():.4f}")
+
+# -------------------------------
+# 13. Export Clean Dataset
+# -------------------------------
+data.to_csv("dateset_one_weka.csv", index=False)
